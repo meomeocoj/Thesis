@@ -1,6 +1,309 @@
 \documentclass[../Main.tex]{subfiles}
 \begin{document}
+\section{Testing}
+This section will analyze the performance of the four kind of JRPC request that are essential for the login and registration use cases of the system. The requests are crucial for facilitating communication between the SDK and executors, and their performance significantly affects the overall efficiency and user experience of the system.\\
+\indent The four JRPC requests being analyzed are:
+\begin{itemize}
+  \item \textbf{AssignKeyCommitmentRequest}-The AssignKeyCommitmentRequest is a critical step that acts as an aggregator for executor signatures, paving the way for the subsequent AssignKeyRequest
+  \item \textbf{AssignKeyRequest}-In the AssignKeyRequest, a user initiates the process of being registered within the system. The user provides their idToken and the signatures obtained from the AssignKeyCommitmentRequest to achieve consensus across the nodes
+  \item \textbf{CommitmentRequest}-The CommitmentRequest is a request sent by a registered user who already exists within the system. Through this request, the user seeks to obtain aggregated signatures from the nodes, facilitating the subsequent ShareRequest process
+  \item \textbf{ShareRequest}-The ShareRequest process is initiated by users who wish to retrieve their encrypted share of the cryptographic key. This encrypted share is a crucial component that allows users to reconstruct their encKey, which is necessary for secure authentication.
+\end{itemize}
+To assess the performance of JRPC requests, we will conduct thorough testing and gather data on response times, request rates, and throughput. The objective is to assess the system's performance under different loads and detect any bottlenecks or areas that require enhancement. Furthermore, we will assess the influence of various factors, including network latency and system resources, on the performance of JRPC requests.\\
+\indent The performance analysis will offer valuable insights into the system's scalability and its capacity to handle a high volume of users and concurrent requests. Optimizing the performance of critical JRPC requests can enhance system responsiveness, reduce latency, and improve the user experience during login and registration.\\
+To conduct tests, I utilize the autocannon\cite{autocannon} package, which can be executed directly in Node.js with the following hyperparameters:
+\begin{itemize}
+  \item Hyperparameters for autocannon:
+    \begin{itemize}
+      \item connections: 10, 100, 1000
+      \item durations: 10s
+      \item number of worker: 1
+    \end{itemize}
+  \item Hardware specification:
+    \begin{itemize}
+      \item Processor: Apple M1 Pro, 6 performance cores(600 - 3220 MHz) and 2 power efficiency core(600 - 2064 MHz)
+      \item Memory: 16GB
+    \end{itemize}
+\end{itemize}
 
+\subsection{CommitmentRequest}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency   & 0 ms  & 0 ms & 5 ms   & 8 ms & 0.93 ms & 2.08 ms & 71 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+Req/Sec   & 4073  & 4073  & 6631   & 8359   & 6850.5  & 1134.82 & 4073  \\
+\hline
+Bytes/Sec & 5.66 MB & 5.66 MB & 9.22 MB & 11.6 MB & 9.52 MB & 1.58 MB & 5.66 MB \\
+\hline
+\end{tabular}
+ \caption{10 connections performance}
+ \label{10-connections-performance}
+\end{table}
 
+\begin{table}[H]
+  \centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency   & 4 ms  & 9 ms & 29 ms   & 36 ms & 10.66 ms & 8.48 ms & 406 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+Req/Sec   & 5391   & 5391   & 9247    & 10647   & 8964.4  & 1496.42 & 5391    \\
+\hline
+Bytes/Sec & 7.5 MB & 7.5 MB & 12.9 MB & 14.8 MB & 12.5 MB & 2.08 MB & 7.49 MB \\
+\hline
+\end{tabular}
+ \caption{100 connections performance}
+ \label{100-connections-performance}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency & 26 ms & 57 ms & 134 ms & 284 ms & 97.63 ms & 461.09 ms & 9882 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+Req/Sec & 3837 & 3837 & 9607 & 10495 & 8381.9 & 2219.44 & 3836 \\
+\hline
+Bytes/Sec & 5.33 MB & 5.33 MB & 13.4 MB & 14.6 MB & 11.6 MB & 3.09 MB & 5.33 MB \\
+\hline
+\end{tabular}
+ \caption{1000 connections performance}
+ \label{1000-connections-performance}
+\end{table}
+
+This performance analysis examined the system's behavior across three connection scenarios: 10, 100, and 1000 connections. The evaluation metrics included latency, throughput (measured in requests per second - Req/Sec), and the frequency of timeout errors.
+The system demonstrated excellent performance in terms of low latency and high throughput for both 10 and 100 connections. The average latency for 10 connections was significantly low at 0.93 ms, while for 100 connections, it remained reasonably low at 10.66 ms. The throughput for these scenarios was notable, with values of approximately 6850.5 and 8964.4 requests per second, respectively.
+However, the system encountered significant challenges when the number of connections reached 1000. The average latency increased to 97.63 ms, indicating a significant delay in request processing. Furthermore, the throughput decreased to 8381.9 requests per second, indicating a diminished ability to handle the augmented workload.
+The evaluation revealed a significant concern regarding the occurrence of 168 timeout errors out of 1000 connections. These errors indicate that the system experienced difficulties in handling the increased workload, resulting in delays or failures in processing requests within a reasonable timeframe.
+
+\begin{table}[H]
+\subsection{ShareRequest}
+  \centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency   & 325 ms & 465 ms & 1130 ms & 1289 ms & 497.26 ms & 177.23 ms & 1307 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+Req/Sec   & 10  & 10  & 19   & 28   & 19.5  & 5.38 & 10  \\
+\hline
+Bytes/Sec & 13 kB & 13 kB & 24.8 kB & 36.5 kB & 25.4 kB & 7.01 kB & 13 kB \\
+\hline
+\end{tabular}
+ \caption{10 connections performance}
+ \label{10-connections-performance}
+\end{table}
+
+\begin{table}[H]
+  \centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency   & 1751 ms & 3888 ms & 5850 ms & 5937 ms & 3843.44 ms & 990.28 ms & 6059 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+Req/Sec   & 0  & 0  & 19   & 32   & 20.6  & 9.67 & 12  \\
+\hline
+Bytes/Sec & 0 B & 0 B & 24.8 kB & 41.8 kB & 26.9 kB & 12.6 kB & 15.6 kB \\
+\hline
+\end{tabular}
+ \caption{100 connections performance}
+ \label{100-connections-performance}
+\end{table}
+
+\begin{table}[H]
+  \centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency   & 1458 ms & 5752 ms & 9791 ms & 9924 ms & 5604.38 ms & 2517.41 ms & 9982 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+Req/Sec   & 0  & 0  & 25   & 35   & 24.3  & 8.88 & 22  \\
+\hline
+Bytes/Sec & 0 B & 0 B & 32.6 kB & 45.7 kB & 31.7 kB & 11.6 kB & 28.7 kB \\
+\hline
+\end{tabular}
+ \caption{1000 connections performance}
+ \label{1000-connections-performance}
+\end{table}
+
+The performance statistics derived from the experiments, which involved different numbers of connections, offer valuable insights into the behavior of the system. The experiments involving 10 and 100 connections demonstrated consistent performance without encountering any errors. In the scenario involving 1000 connections, the system encountered a significant difficulty, resulting in 700 timeout errors.\\
+Upon analyzing the latency metric, it becomes apparent that the response times exhibited an increase in correlation with the escalation of the number of connections. In the experiment involving 1000 connections, the latency percentiles of 97.5% and 99% were recorded as 9791 ms and 9924 ms, respectively. This indicates that a considerable number of requests encountered increased latencies, potentially affecting the overall user experience.\\
+The system consistently maintained an average throughput of approximately 24 requests per second throughout all three experiments. In the scenario involving 1000 connections, the 97.5th percentile of throughput reached a stable value of 35 requests per second. The system's capacity to handle requests was generally consistent, with the exception of a few instances where slower processing times were observed under higher loads.\\
+
+\subsection{AssignKeyCommitmentRequest}
+
+\begin{table}[H]
+  \centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency & 285 ms & 305 ms & 478 ms & 522 ms & 323.71 ms & 52.36 ms & 681 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+\hline
+Req/Sec & 208 & 208 & 307 & 339 & 304.7 & 39.09 & 208 \\
+Bytes/Sec & 301 kB & 301 kB & 444 kB & 491 kB & 441 kB & 56.6 kB & 301 kB \\
+\hline
+\end{tabular}
+ \caption{10 connections performance}
+ \label{10-connections-performance}
+\end{table}
+
+\begin{table}[H]
+  \centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency & 667 ms & 2259 ms & 4025 ms & 4232 ms & 2240.57 ms & 676.53 ms & 4521 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+\hline
+Req/Sec & 237 & 237 & 432 & 467 & 399.4 & 80.26 & 237 \\
+Bytes/Sec & 343 kB & 343 kB & 625 kB & 676 kB & 578 kB & 116 kB & 343 kB \\
+\hline
+\end{tabular}
+ \caption{10 connections performance}
+ \label{10-connections-performance}
+\end{table}
+
+\begin{table}[H]
+  \centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency & 667 ms & 2259 ms & 4025 ms & 4232 ms & 2240.57 ms & 676.53 ms & 4521 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+\hline
+Req/Sec & 237 & 237 & 432 & 467 & 399.4 & 80.26 & 237 \\
+Bytes/Sec & 343 kB & 343 kB & 625 kB & 676 kB & 578 kB & 116 kB & 343 kB \\
+\hline
+\end{tabular}
+ \caption{1000 connections performance}
+ \label{1000-connections-performance}
+\end{table}
+
+\indent The throughput of the AssignKeyCommitment endpoint exhibits a positive correlation with the number of connections, as evidenced by the average request rates of 304.7, 399.4, and 578 requests per second for 10, 100, and 1000 connections, respectively. However, as the number of connections increases, the latency also increases. The average latencies for different connection counts are 323.71 ms, 2240.57 ms, and 2240.57 ms, respectively. This suggests that there may be performance bottlenecks at higher loads, which might need to be addressed through optimization.
+
+\subsection{AssignKey}
+\begin{table}[H]
+  \centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency & 447 ms & 465 ms & 2193 ms & 2225 ms & 547.96 ms & 343.23 ms & 2230 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+\hline
+Req/Sec & 4 & 4 & 20 & 25 & 17.7 & 6.28 & 4 \\
+Bytes/Sec & 3.44 kB & 3.44 kB & 17.2 kB & 21.5 kB & 15.2 kB & 5.4 kB & 3.44 kB \\
+\hline
+\end{tabular}
+ \caption{10 connections performance}
+ \label{10-connections-performance}
+\end{table}
+
+\begin{table}[H]
+  \centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency & 453 ms & 500 ms & 784 ms & 834 ms & 539.74 ms & 96.42 ms & 1154 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+\hline
+Req/Sec & 96 & 96 & 185 & 219 & 180.8 & 35.31 & 96 \\
+Bytes/Sec & 82.6 kB & 82.6 kB & 159 kB & 188 kB & 155 kB & 30.4 kB & 82.6 kB \\
+\hline
+\end{tabular}
+ \caption{100 connections performance}
+ \label{100-connections-performance}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{99\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Max} \\
+\hline
+Latency & 837 ms & 1561 ms & 6822 ms & 8665 ms & 1842.51 ms & 1257.83 ms & 9971 ms \\
+\hline
+\rowcolor[HTML]{f56b00}
+\textbf{Stat} & \textbf{1\%} & \textbf{2.5\%} & \textbf{50\%} & \textbf{97.5\%} & \textbf{Avg} & \textbf{Stdev} & \textbf{Min} \\
+\hline
+Req/Sec & 68 & 68 & 277 & 387 & 265.9 & 91.27 & 68 \\
+Bytes/Sec & 58.5 kB & 58.5 kB & 238 kB & 333 kB & 229 kB & 78.5 kB & 58.5 kB \\
+\hline
+\end{tabular}
+ \caption{1000 connections performance}
+ \label{1000-connections-performance}
+\end{table}
+
+\indent The average throughput in the AssignKeyRequest tests exhibited an upward trend as the number of connections increased. Specifically, the average throughput reached 17.7, 180.8, and 265.9 requests per second for tests with 10, 100, and 1000 connections, respectively. However, higher connections were found to be associated with increased latency. Specifically, average latencies of 547.96 ms, 539.74 ms, and 1842.51 ms were observed. The results emphasize the need for optimization strategies to balance throughput and latency, ensuring efficient server performance and user experience.
+
+\section{Discussion}
+Web3Auth is a decentralized oracle network that exhibits similarities with the thesis project. The system also incorporates Shamir's Secret Sharing and DKG (Distributed Key Generation) protocol. Web3Auth provides various key features, as follows:
+\begin{itemize}
+  \item \textbf{Seamless onboarding}-Web3Auth uses social login to allow users to sign up for dapps with just a few clicks. This makes it easy for users to get started with dapps, and it also helps to improve the user experience.
+  \item \textbf{Multi-party computation (MPC)}-Web3Auth uses MPC to provide a secure and private way for users to share their keys. This allows users to collaborate on dapps without having to reveal their private keys. MPC is a cryptographic protocol that allows multiple parties to jointly compute a function without revealing their individual inputs. This makes it a very secure way for users to share their keys, as only the final result of the computation is revealed.
+
+\end{itemize}
+
+\indent Web3Auth has the following disadvantages:
+\begin{itemize}
+  \item The implementation of nodes for constructing keys of Web3Authen is complex due to the presence of multiple layers within its structure.
+  \item The persistence of user data is not guaranteed due to the storage of metadata in a database. If the organization fails to manage this properly, it can result in the loss of information, leading to significant damages.
+  \item Web3Auth is not yet widely adopted by dapps, so users may not be able to use their Web3Auth keys on all of the dapps that they want to use. This is because the platform is still relatively new, and it is not yet as widely integrated with dapps as other platforms, such as MetaMask.
+  \item To successfully execute projects, various infrastructure components must be operational, with particular emphasis on the node's involvement in registering and creating encryption keys. Scaling out can result in significant infrastructure costs.
+\end{itemize}
+\indent The system advantages:
+\begin{itemize}
+  \item By utilizing smart contracts and blockchain technology, user data can be stored and secured in a decentralized manner, guaranteeing its durability and security as long as the blockchain network remains operational.
+  \item By transferring the responsibility of constructing encKey and assignKey to the smart contract, the need for implementing intricate nodes to handle consensus between nodes, such as Web3Auth, is eliminated.
+  \item The system's complexity decreased, resulting in significant reductions in infrastructure and debugging costs.
+\end{itemize}
 
 \end{document}
