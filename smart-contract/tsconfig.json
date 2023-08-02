@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "lib": ["esnext"]
+  },
+  "include": ["src/**/*", "codegen/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

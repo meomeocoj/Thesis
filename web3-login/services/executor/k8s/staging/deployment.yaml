@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: executor-1
+  namespace: staging
+  labels:
+    app: executor-1
+    repo: executor
+spec:
+  selector:
+    matchLabels:
+      app: executor-1
+  template:
+    metadata:
+      labels:
+        app: executor-1
+        repo: executor
+    spec:
+      containers:
+        - name: executor
+          image: docker-account/social-login-executor:v1.0.0
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: executor-1.env
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: executor-2
+  namespace: staging
+  labels:
+    app: executor-2
+    repo: executor
+spec:
+  selector:
+    matchLabels:
+      app: executor-2
+  template:
+    metadata:
+      labels:
+        app: executor-2
+        repo: executor
+    spec:
+      containers:
+        - name: executor
+          image: docker-account/social-login-executor:v1.0.0
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: executor-2.env
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1"

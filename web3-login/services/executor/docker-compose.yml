@@ -1,0 +1,11 @@
+---
+services:
+  executor:
+    image: oraichain/social-login-executor
+    build: ./
+    ports:
+      - '80:51103'
+    volumes:
+      - ./config-testnet.yaml:/usr/src/executor/config-testnet.yaml
+      - ./config.yaml:/usr/src/executor/config.yaml
+      - ./.env:/usr/src/executor/.env

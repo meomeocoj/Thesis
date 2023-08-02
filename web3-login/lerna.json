@@ -1,0 +1,18 @@
+{
+  "version": "1.0.3",
+  "packages": [
+    "packages/*"
+  ],
+  "npmClient": "npm",
+  "useWorkspaces": true,
+  "nohoist": [
+    "**/@react-native-*/**",
+    "**/react-native",
+    "**/react-native/**",
+    "**/*-react-native",
+    "**/react-native-*",
+    "**/@react-navigation/**",
+    "**/expo-*",
+    "**/@react-native-async-storage/async-storage"
+  ]
+}

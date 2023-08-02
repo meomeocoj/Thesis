@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Extension with React & Webpack",
+  "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
+  "options_page": "options.html",
+  "background": { "service_worker": "background.bundle.js" },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon-34.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "icons": {
+    "128": "icon-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+      "js": ["contentScript.bundle.js"],
+      "css": ["content.styles.css"]
+    }
+  ],
+  "devtools_page": "devtools.html",
+  "web_accessible_resources": [
+    {
+      "resources": ["content.styles.css", "icon-128.png", "icon-34.png"],
+      "matches": []
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "permissions": ["storage", "identity", "tabs"],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjtq3xZV3OaKUlJBFOCtLDJ47qmF/LDsP1fI8NM4XQaQB7cdzVNAE3GviexVyTusN6FBuKU+08Mh3y8bi4nVUcUrbsVJrqFd6OGSWXYCb4Wfot7Mz8t+GXccwtQR0/YDrIuA3KwRwvgMZPEBrxI4pVuS2sDfscPwiGSSY9y1k9J2OFB/izjcXX3TJANpUe6AgQYARTYz3D+MnE9gJxuz7j2Ni4QlYuZKj1j7SNukH20h/PEPe37xd5QCMKVTXh8q6EwwlnaKcgESI2h7iSyyNO7KtcJQyqgQMtZPcxL6GzOvvV3PSVl9okHhjMce9rknQDClUFIjeYU+D2O0Gqo5P5wIDAQAB"
+}

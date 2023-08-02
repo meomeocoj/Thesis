@@ -1,0 +1,4 @@
+# .prettierrc or .prettierrc.yaml
+printWidth: 80
+singleQuote: true
+semi: false

@@ -2365,32 +2365,30 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">reference.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">shamir1979share</bcf:citekey>
-    <bcf:citekey order="2" intorder="1">abadi2016distributed</bcf:citekey>
+    <bcf:citekey order="1" intorder="1">Bitcoin</bcf:citekey>
+    <bcf:citekey order="2" intorder="1">Ethereum</bcf:citekey>
     <bcf:citekey order="3" intorder="1">Bitcoin</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">Ethereum</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">Bitcoin</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">antonopoulos2014masteringbitcoin</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">merkle1987digital</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">bip39</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">metamask</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">Bitcoin</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">Ethereum</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">larrange-interpolation</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">pedersen1991threshold</bcf:citekey>
-    <bcf:citekey order="14" intorder="1">szabo1997formalizing</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">antonopoulos2014masteringbitcoin</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">merkle1987digital</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">bip39</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">metamask</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">Bitcoin</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">Ethereum</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">larrange-interpolation</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">pedersen1991threshold</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">szabo1997formalizing</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">Ethereum</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">vanderveen2021defi</bcf:citekey>
     <bcf:citekey order="15" intorder="1">Ethereum</bcf:citekey>
-    <bcf:citekey order="16" intorder="1">vanderveen2021defi</bcf:citekey>
-    <bcf:citekey order="17" intorder="1">Ethereum</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">swan2018token</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">buterin2014next</bcf:citekey>
-    <bcf:citekey order="20" intorder="1">oauth2</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">expressjs</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">jsonrpc</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">mysql</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">cosmwasm</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">cosmos-sdk</bcf:citekey>
-    <bcf:citekey order="26" intorder="1">autocannon</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">swan2018token</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">buterin2014next</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">oauth2</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">expressjs</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">jsonrpc</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">mysql</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">cosmwasm</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">cosmos-sdk</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">autocannon</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
