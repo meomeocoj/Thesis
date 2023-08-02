@@ -2385,13 +2385,12 @@
     <bcf:citekey order="18" intorder="1">swan2018token</bcf:citekey>
     <bcf:citekey order="19" intorder="1">buterin2014next</bcf:citekey>
     <bcf:citekey order="20" intorder="1">oauth2</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">oreilly2005web2</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">expressjs</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">jsonrpc</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">mysql</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">cosmwasm</bcf:citekey>
-    <bcf:citekey order="26" intorder="1">cosmos-sdk</bcf:citekey>
-    <bcf:citekey order="27" intorder="1">autocannon</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">expressjs</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">jsonrpc</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">mysql</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">cosmwasm</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">cosmos-sdk</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">autocannon</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
